@@ -21,6 +21,7 @@ import java.util.Scanner;
 
     주의 할 점)
     private Node<E> lastReturned; (변수명만 보고 어떤 동작을 하는지 유추하기가 어려움)
+    listIterator를 호출하면 lastReturned은 null로 초기 세팅이 잡힘 
     링크드 리스트에 있는 마지막 노드를 뜻하는 것이 아니라 여기서 말하는 last는 가장 최근에 반환된 노드를 의미함
     정확히 말하면 ListIterator의 next() 또는 previous() 메서드에 의해 마지막으로 반환된 노드를 뜻함
 */
