@@ -39,7 +39,7 @@ import java.util.Scanner;
 
     2.2 이전에 있는 괄호가 "]"인 경우 "x+y" 수행후 x에 넣고 (int x = x + y) pop 처리
     - case1. x값이 0이 아니라면, x = x * 2
-    ex) ( () [[]] )
+    ex) ( (2) [[9]] )
     x = (x+y) * 2
 
     ex) (( () [[]] ))
