@@ -51,7 +51,7 @@ public class BOJ_2504_v2 {
                 num = num / 3;
             }
         }
-        
+
         // 출력
         if(!stack.isEmpty()) cnt = 0;
         System.out.println(cnt);
