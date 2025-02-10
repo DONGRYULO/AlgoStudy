@@ -1,23 +1,17 @@
 package bfs;
 
-/*
-    <문제이해>
-    값을 입력받을 때부터 익은 토마토를 큐에 넣어두고 동시에 큐에서 꺼내기
-    주변에 익지 않은 토마토가 익을 때마다 기존 익은 토마토의 + 1을 해서 최소 날짜 계산
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
 
-    큐에서 모든 값을 꺼내고 난 이후에 상자를 순회하면서 익지 않은 토마토가 있는지 체크 -> O(n*m)
-    모두 익었으면 맨 마지막에 나온 큐에 값에 -1 를 해서 출력
-*/
-
-import java.util.*;
-
-public class BOJ_7576 {
+public class BOJ_7576_v2 {
     public static void main(String[] args) {
          // 입력
         Scanner sc = new Scanner(System.in);
         int m = sc.nextInt(); // 가로(열)
         int n = sc.nextInt(); // 세로(행)
         int[][] box = new int[n][m];
+        int[][] dist = new int[n][m]; // 최소일수를 구하는 용도
         Deque<int[]> q = new ArrayDeque<>();
 
         int[] dx = {-1,1,0,0};
@@ -28,12 +22,13 @@ public class BOJ_7576 {
                 box[i][j] = sc.nextInt();
                 if(box[i][j] == 1){
                     q.offer(new int[]{i, j});
+                }else if(box[i][j] == 0){
+                    dist[i][j] = -1; // 익지 않은 토마토 -1로 세팅
                 }
             }
         }
 
         // 로직
-        int minDate = 0;
         while(!q.isEmpty()){
             int[] cur = q.poll();
 
@@ -41,20 +36,23 @@ public class BOJ_7576 {
                 int nx = cur[0] + dx[dir];
                 int ny = cur[1] + dy[dir];
                 if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-                // 벽 or 익은 토마토 체크
-                if(box[nx][ny] == -1 || box[nx][ny] >= 1) continue;
-                box[nx][ny] = box[cur[0]][cur[1]] + 1; // 익어가기 위해 전파된 토마토 거리
-                minDate = box[nx][ny] - 1;
+                // 벽은 0으로 or 익은 토마토는 0 이상으로 체크
+                if(dist[nx][ny] >= 0) continue;
+                dist[nx][ny] = dist[cur[0]][cur[1]] + 1; // 익어가기 위해 전파된 토마토 거리
                 q.offer(new int[]{nx, ny});
             }
         }
 
         // 모두 익지 못하는 상황인지 체크
+        int minDate = 0;
         for(int i = 0; i < n; i++){
             for(int j = 0; j < m; j++){
-                if(box[i][j] == 0){
+                if(dist[i][j] == -1){
                     System.out.println(-1);
                     return;
+                }
+                if(dist[i][j] > minDate){
+                    minDate = dist[i][j];
                 }
             }
         }
